@@ -1,0 +1,27 @@
+{
+  "name": "fullstack-hy_part3_puhelinluettelo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mynttih/FullStack-Hy_part3_puhelinluettelo.git"
+  },
+  "author": "Henri Mynttinen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mynttih/FullStack-Hy_part3_puhelinluettelo/issues"
+  },
+  "homepage": "https://github.com/mynttih/FullStack-Hy_part3_puhelinluettelo#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.12"
+  }
+}
