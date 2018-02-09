@@ -1,8 +1,15 @@
-const express = require('express')
-const app = express()
 const bodyParser = require('body-parser')
+const express = require('express')
+const morgan = require('morgan')
+
+morgan.token('body', req => {
+    return JSON.stringify(req.body)
+})
+
+const app = express()
 
 app.use(bodyParser.json())
+app.use(morgan(':method :url :body :status :res[content-length]' + ' - ' + ':response-time'))
 
 const generateId = (max) => {
     return Math.floor(Math.random() * max)
