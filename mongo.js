@@ -6,7 +6,7 @@ mongoose.connect(url)
 
 const Person = mongoose.model('Person', {
     name: String,
-    number: String,
+    number: String
 })
 
 if (process.argv.length > 2) {

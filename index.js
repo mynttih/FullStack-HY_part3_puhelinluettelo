@@ -2,6 +2,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const express = require('express')
 const morgan = require('morgan')
+const Person = require('./models/person')
 
 morgan.token('body', req => {
     return JSON.stringify(req.body)
@@ -51,18 +52,25 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api/persons', (req, res) => {
-    res.json(persons)
+    Person
+        .find({})
+        .then(persons => {
+            res.json(persons)
+        })
+        .catch(error => {
+            console.log(error)
+        })
 })
 
 app.get('/api/persons/:id', (req, res) => {
-    const id = Number(req.params.id)
-    const person = persons.find(person => person.id === id)
-
-    if (person) {
-        res.json(person)
-    } else {
-        res.status(404).end()
-    }
+    Person
+        .findById(req.params.id)
+        .then(person => {
+            res.json(person)
+        })
+        .catch(error => {
+            console.log(error)
+        })
 })
 
 app.get('/info', (req, res) => {
@@ -78,26 +86,34 @@ app.post('/api/persons', (req, res) => {
         return res.status(400).json({error: 'name missing'})
     } else if (body.number === undefined) {
         return res.status(400).json({error: 'number missing'})
-    } else if (persons.find(person => person.name === body.name) !== undefined) {
-        return res.status(400).json({error: 'name must be unique'})
     }
 
-    const person = {
+    const person = new Person ({
         name: body.name,
-        number: body.number,
-        id: generateId(1000000000)
-    }
+        number: body.number
+    })
 
     persons = persons.concat(person)
 
-    res.json(person)
+    person
+        .save()
+        .then(person => {
+            res.json(person)
+        })
+        .catch(error => {
+            console.log(error)
+        })
 })
 
 app.delete('/api/persons/:id', (req, res) => {
-    const id = req.params.id
-    persons = persons.filter(person => person.id !== id)
-
-    res.status(204).end()
+    Person
+        .findByIdAndRemove(req.params.id)
+        .then(result => {
+            res.status(204).end()
+        })
+        .catch(error => {
+            res.status(400).send({ error: 'malformed id' })
+        })
 })
 
 const PORT = process.env.PORT || 3001
